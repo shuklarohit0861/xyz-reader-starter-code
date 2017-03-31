@@ -1,5 +1,6 @@
 package com.example.xyzreader.ui;
 
+import android.app.ActivityOptions;
 import android.app.LoaderManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -46,8 +47,8 @@ public class ArticleListActivity extends ActionBarActivity implements
     private RecyclerView mRecyclerView;
     private int lastAnimatedPosition = -1;
     private  int ANIMATED_ITEMS_COUNT ;
-
-
+    Context context;
+    Bundle bundle;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
     // Use default locale format
     private SimpleDateFormat outputFormat = new SimpleDateFormat();
@@ -59,7 +60,7 @@ public class ArticleListActivity extends ActionBarActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_list);
         setupWindowAnimation();
-
+            context = getApplicationContext();
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
 
@@ -69,7 +70,8 @@ public class ArticleListActivity extends ActionBarActivity implements
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         getLoaderManager().initLoader(0, null, this);
-
+       // bundle = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+       // bundle = ActivityOptions.makeSceneTransitionAnimation(ArticleListActivity.this,findViewById(R.id.image_trans),getString(R.string.imageTransition).toString()).toBundle();
         if (savedInstanceState == null) {
             refresh();
         }
@@ -146,13 +148,15 @@ public class ArticleListActivity extends ActionBarActivity implements
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = getLayoutInflater().inflate(R.layout.list_item_article, parent, false);
             final ViewHolder vh = new ViewHolder(view);
+
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    bundle = ActivityOptions.makeSceneTransitionAnimation(ArticleListActivity.this,findViewById(R.id.thumbnail),getString(R.string.imageTransition).toString()).toBundle();
                     startActivity(new Intent(Intent.ACTION_VIEW,
-                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())))
-                           );
-                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))),bundle);
+
+                    //overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
 
                 }
             });
@@ -224,9 +228,4 @@ public class ArticleListActivity extends ActionBarActivity implements
         getWindow().setExitTransition(slide);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
-    }
 }
