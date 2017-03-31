@@ -63,7 +63,7 @@ public class ArticleListActivity extends ActionBarActivity implements
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
 
-        final View toolbarContainerView = findViewById(R.id.toolbar_container);
+       // final View toolbarContainerView = findViewById(R.id.toolbar_container);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
@@ -152,6 +152,7 @@ public class ArticleListActivity extends ActionBarActivity implements
                     startActivity(new Intent(Intent.ACTION_VIEW,
                             ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())))
                            );
+                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
 
                 }
             });
@@ -223,6 +224,9 @@ public class ArticleListActivity extends ActionBarActivity implements
         getWindow().setExitTransition(slide);
     }
 
-
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+    }
 }
