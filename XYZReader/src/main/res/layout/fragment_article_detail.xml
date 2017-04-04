@@ -2,17 +2,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/draw_insets_frame_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    >
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
     <com.example.xyzreader.ui.ObservableScrollView
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:nestedScrollingEnabled="true"
         >
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
             <FrameLayout
                 android:id="@+id/photo_container"
@@ -27,6 +33,7 @@
                     android:scaleType="centerCrop"
                     android:adjustViewBounds="true"
                     android:transitionName="@string/imageTransition"
+
                      />
 
                 <View
@@ -101,12 +108,12 @@
         android:id="@+id/share_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
         android:src="@drawable/ic_share"
-        android:layout_margin="@dimen/fab_margin"
-
-        android:backgroundTint="@color/accent"
+       app:layout_behavior="com.example.xyzreader.ui.ScrollAwareFabBehavior"
 
         />
+</android.support.design.widget.CoordinatorLayout>
 
 </com.example.xyzreader.ui.DrawInsetsFrameLayout>

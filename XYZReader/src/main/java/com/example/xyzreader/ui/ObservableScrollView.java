@@ -38,6 +38,8 @@ public class ObservableScrollView extends ScrollView {
         }
     }
 
+
+
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
@@ -58,6 +60,7 @@ public class ObservableScrollView extends ScrollView {
     }
 
     public static interface Callbacks {
-        public void onScrollChanged();
+         void onScrollChanged();
+
     }
 }
